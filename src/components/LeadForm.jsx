@@ -277,9 +277,13 @@ const LeadForm = () => {
     }
   }, [token, navigate]);
 
-  const setimgfile = (e)=>{
-    setFile(e.target.files[0])
-  }
+
+const setimgfile = (e) => {
+  const selectedFile = e.target.files[0];
+  setFile(selectedFile);
+  console.log("📸 Selected File:", selectedFile); // ✅ Now works
+};
+
 
 
 
@@ -290,16 +294,21 @@ const LeadForm = () => {
 
     try {
 
-      var formData = new FormData()
-    formData.append('photo',file)
+   const formData = new FormData();
+    formData.append('photo', file);  // ✅ image file
+    formData.append('email', values.email);
+    formData.append('name', values.name);
+    formData.append('phoneNumber', values.phoneNumber);
+    formData.append('status', values.status)
 
     const config = {
-      Headers:{"Content-type":"multipart/form-data"}
+      Authorization: `Bearer ${token}`,
     }
 
 
-      const apiCall = leadData ? patchData(`/api/users/lead/update_leads/${leadData._id}`, values,formData,config)
-        : postData("/api/users/lead/create_leads", values)
+      const apiCall = leadData 
+      ? patchData(`/api/users/lead/update_leads/${leadData._id}`, values)
+        : postData("/api/users/lead/create_leads",formData,config)
 
       toast.promise(
         apiCall,
@@ -321,10 +330,12 @@ const LeadForm = () => {
         navigate("/lead_list");
       }
 
-    } catch (error) {
+    } 
+    catch (error) {
       toast.warn("Error: " + error?.response?.data?.message)
     }
   }
+
 
   return (
     <>

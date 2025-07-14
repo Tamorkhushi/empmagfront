@@ -49,7 +49,7 @@ const LeadList = () => {
     }
   };
 
-  console.log("userleads rohit kumar listlead", userleads);
+  console.log("userleads khushi tamor listlead", userleads);
   const leads = []
   return (
     <>
