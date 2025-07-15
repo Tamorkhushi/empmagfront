@@ -295,7 +295,7 @@ const setimgfile = (e) => {
     try {
 
    const formData = new FormData();
-    formData.append('photo', file);  // ✅ image file
+    formData.append('avatar',file);  // ✅ image file
     formData.append('email', values.email);
     formData.append('name', values.name);
     formData.append('phoneNumber', values.phoneNumber);
