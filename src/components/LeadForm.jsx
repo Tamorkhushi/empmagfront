@@ -269,12 +269,15 @@ const LeadForm = () => {
   const { state } = useLocation();
   const leadData = state?.leadData;
 
+
+
   // Redirect to login if the user is not logged in
   useEffect(() => {
     if (!token) {
       toast.warn("Please login to access this page");
       navigate("/login");
     }
+
   }, [token, navigate]);
 
 
@@ -283,26 +286,33 @@ const setimgfile = (e) => {
   setFile(selectedFile);
 };
 
-
-
-
   async function submitForm(values, actions) {
     if (values?.phoneNumber) {
       values.phoneNumber = "+91" + values.phoneNumber
     }
 
-    try {
+   if (!file) {
+  toast.warn("Please select an image!");
+  return;
+}
 
+    try {
    const formData = new FormData();
-    formData.append('avatar',file);  // ✅ image file
+    formData.append('avatar',values.avatar);  // ✅ image file
     formData.append('email', values.email);
     formData.append('name', values.name);
     formData.append('phoneNumber', values.phoneNumber);
     formData.append('status', values.status)
 
+    
+  for (let [key, value] of formData.entries()) {
+  console.log(key, value);
+}
+
       const apiCall = leadData 
       ? patchData(`/api/users/lead/update_leads/${leadData._id}`, values)
-        : postData("/api/users/lead/create_leads",formData)
+        : postData("/api/users/lead/create_leads/",formData)
+
 
       toast.promise(
         apiCall,
@@ -382,6 +392,7 @@ const setimgfile = (e) => {
 };
 
 export default LeadForm
+
 // ...............................................................................
 
 

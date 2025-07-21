@@ -95,14 +95,14 @@ async function apiCall(endpoint, method = "GET", data = null) {
   const url = `${apiUrl}${endpoint}`;
   const token = getToken();
 
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
+  // const headers = {
+  //   Authorization: `Bearer ${token}`,
+  // };
 
   // Only set Content-Type for JSON (FormData will automatically set its own)
-  // if (data && !(data instanceof FormData)) {
-  //   Authorization: `Bearer ${token}`,
-  // }
+   if (data && !(data instanceof FormData)) {
+     options.headers["Content-Type"] = "application/json";
+  }
 
   const options = {
     method,
